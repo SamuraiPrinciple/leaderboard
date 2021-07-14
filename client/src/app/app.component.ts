@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -13,8 +12,7 @@ import { Observable } from 'rxjs';
     TODO - Your stuff should go in here...`,
 })
 export class AppComponent {
-  public ip$: Observable<string>;
-  constructor(private http: HttpClient) {
-    this.ip$ = http.get('/ipify', { responseType: 'text' });
-  }
+  public ip$ = this.http.get('/ipify', { responseType: 'text' });
+
+  constructor(private http: HttpClient) {}
 }
