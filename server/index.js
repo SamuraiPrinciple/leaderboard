@@ -21,6 +21,12 @@ const rpc = (stringify, logger, portNum, handlers) =>
       const payload = chunks.length === 1 ? chunks[0] : Buffer.concat(chunks);
       let parsedPayload;
       try {
+        if (Math.random() < parseFloat(req.headers['p-failure']) || 0) {
+          throw { code: -1, message: 'Internal error' };
+        }
+        if (Math.random() < parseFloat(req.headers['p-timeout']) || 0) {
+          return;
+        }
         try {
           parsedPayload = JSON.parse(payload);
         } catch (error) {
@@ -35,6 +41,7 @@ const rpc = (stringify, logger, portNum, handlers) =>
           throw { code: -32601, message: 'Method not found' };
         }
         const result = await handler(...params);
+        res.setHeader('Access-Control-Allow-Origin', '*');
         res.end(stringify({ jsonrpc, result, id }));
       } catch (error) {
         res.end(stringify({ jsonrpc: '2.0', error, id: parsedPayload?.id === undefined ? null : parsedPayload.id }));
