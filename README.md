@@ -23,6 +23,8 @@ For example, if we assume that `getPlayer(i)` returns `{id: i, name: 'Player ${i
 
 ## getLeaderboard
 
+Request:
+
 ```bash
 curl -s -X POST http://localhost:4200/api/rpc --data-binary @- <<EOF
 {
@@ -34,7 +36,15 @@ curl -s -X POST http://localhost:4200/api/rpc --data-binary @- <<EOF
 EOF
 ```
 
+Example response:
+
+```json
+{ "jsonrpc": "2.0", "result": [5, 3, 2, 4, 1], "id": 12345 }
+```
+
 ## getPlayer
+
+Request:
 
 ```bash
 curl -s -X POST http://localhost:4200/api/rpc --data-binary @- <<EOF
@@ -45,4 +55,10 @@ curl -s -X POST http://localhost:4200/api/rpc --data-binary @- <<EOF
   "id": 12345
 }
 EOF
+```
+
+Example response:
+
+```json
+{ "jsonrpc": "2.0", "result": { "name": "Third" }, "id": 12345 }
 ```
