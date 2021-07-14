@@ -12,7 +12,7 @@ import { Component } from '@angular/core';
     TODO - Your stuff should go in here...`,
 })
 export class AppComponent {
-  public ip$ = this.http.get('/ipify', { responseType: 'text' });
+  ip$ = this.http.get('/ipify', { responseType: 'text' });
 
   constructor(private http: HttpClient) {}
 }
