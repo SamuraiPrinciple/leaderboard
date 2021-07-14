@@ -3,5 +3,13 @@
     "target": "https://leaderboard.finrings.com",
     "changeOrigin": true,
     "secure": false
+  },
+  "/ipify": {
+    "target": "https://api.ipify.org",
+    "changeOrigin": true,
+    "secure": false,
+    "pathRewrite": {
+      "^/ipify": ""
+    }
   }
 }

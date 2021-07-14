@@ -1,7 +1,20 @@
+import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-root',
-  template: `Hello World!`,
+  template: ` <h1>Welcome!</h1>
+    <h2>
+      Your outbound IP address (just to make sure everything is wired correctly)
+    </h2>
+    {{ ip$ | async }}
+    <h2>Leaderboard</h2>
+    TODO - Your stuff should go in here...`,
 })
-export class AppComponent {}
+export class AppComponent {
+  public ip$: Observable<string>;
+  constructor(private http: HttpClient) {
+    this.ip$ = http.get('/ipify', { responseType: 'text' });
+  }
+}
