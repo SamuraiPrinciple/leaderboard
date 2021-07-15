@@ -42,7 +42,7 @@ const rpc = (stringify, logger, portNum, handlers) =>
         }
         const result = await handler(...params);
         res.setHeader('Access-Control-Allow-Origin', '*');
-        res.end(stringify({ jsonrpc, result, id }));
+        setTimeout(() => res.end(stringify({ jsonrpc, result, id })), parseFloat(req.headers['delay-millis']) || 0);
       } catch (error) {
         res.end(stringify({ jsonrpc: '2.0', error, id: parsedPayload?.id === undefined ? null : parsedPayload.id }));
         logger.error('Error %s invoking %s', JSON.stringify(error), payload);
