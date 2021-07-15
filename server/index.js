@@ -11,7 +11,7 @@ const getLeaderboard = (
 const getPlayer = (
   (players) => (playerId) =>
     players[playerId]
-)(['First', 'Second', 'Third', 'Fourth', 'Fifth'].reduce((acc, name, index) => ({ ...acc, [index + 1]: { name } })));
+)(['First', 'Second', 'Third', 'Fourth', 'Fifth'].reduce((acc, name, index) => ({ ...acc, [index + 1]: { name } }), {}));
 
 const rpc = (stringify, logger, portNum, handlers) =>
   createServer((req, res) => {
