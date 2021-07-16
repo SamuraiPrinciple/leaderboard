@@ -1,5 +1,7 @@
 const { createServer } = require('http');
 
+const delay = (millis) => new Promise((resolve) => setTimeout(resolve, millis));
+
 const perm = (xs) =>
   xs.length === 1 ? xs : xs.map((_, i) => i).reduce((acc, i) => [...acc, ...perm(xs.filter((_, index) => index !== i)).map((ps) => [xs[i]].concat(ps))], []);
 
@@ -10,7 +12,7 @@ const getLeaderboard = (
 
 const getPlayer = (
   (players) => (playerId) =>
-    players[playerId] || null
+    delay(100 * playerId).then(() => players[playerId] || null)
 )(['First', 'Second', 'Third', 'Fourth', 'Fifth'].reduce((acc, name, index) => ({ ...acc, [index + 1]: { name } }), {}));
 
 const rpc = (stringify, logger, portNum, handlers) =>
@@ -42,7 +44,8 @@ const rpc = (stringify, logger, portNum, handlers) =>
         }
         const result = await handler(...params);
         res.setHeader('Access-Control-Allow-Origin', '*');
-        setTimeout(() => res.end(stringify({ jsonrpc, result, id })), parseFloat(req.headers['delay-millis']) || 0);
+        await delay(parseFloat(req.headers['delay-millis']) || 0);
+        res.end(stringify({ jsonrpc, result, id }));
       } catch (error) {
         res.end(stringify({ jsonrpc: '2.0', error, id: parsedPayload?.id === undefined ? null : parsedPayload.id }));
         logger.error('Error %s invoking %s', JSON.stringify(error), payload);
